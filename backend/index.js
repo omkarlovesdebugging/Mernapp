@@ -8,7 +8,7 @@ const cors = require('cors')
 mongoDB();
 
 app.use((req,res,next)=>{
-    res.setHeader("Access-Control-allow-Origin","http://localhost:3000");
+    res.setHeader("Access-Control-allow-Origin","https://mernapp-frontend-1ocp.onrender.com");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin,X-Requested-With, Content-Type, Accept"
