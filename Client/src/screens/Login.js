@@ -8,32 +8,39 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://mernapp-52gq.onrender.com/api/loginuser", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      })
-    });
+    try {
+      const response = await fetch("https://mernapp-52gq.onrender.com/api/loginuser", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        })
+      });
 
-    const json = await response.json()
-    console.log(json);
-
-    if (!json.success) {
-      alert("Enter valid credentials")
+      if (!response.ok) {
+        const errorMessage = await response.text(); 
+        throw new Error(`Server Error: ${errorMessage || response.statusText}`);
+      }
+  
+      const json = await response.json(); 
+      console.log(json);
+  
+      if (!json.success) {
+        alert("Enter valid credentials");
+      } else {
+        localStorage.setItem('userEmail', credentials.email);
+        localStorage.setItem("authToken", json.authToken);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error during login:", error.message);
+      alert("An error occurred while logging in. Please try again.");
     }
-    if (json.success) {
-      localStorage.setItem('userEmail', credentials.email)
-      localStorage.setItem("authToken", json.authToken);
-      navigate("/");
-    }
-
-    //Idk what to do 
-
-  }
+  };
+  
 
   const onChange = (e) => {
     setcredentials({ ...credentials, [e.target.name]: e.target.value })
