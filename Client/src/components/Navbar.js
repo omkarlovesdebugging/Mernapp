@@ -68,10 +68,13 @@ const items = useCart();
               :
               <div className='d-flex'>
 
-              <div className='btn bg-white text-success mx-1' onClick={loadCart}>
-                My Cart {" "}
-                <Badge pill bg="danger">{items.length}</Badge>
-              </div>
+              <div className='btn bg-white text-success mx-1 d-flex align-items-center' onClick={loadCart}>
+                My Cart
+                {/* The Badge now has a white background and green text color */}
+                  <Badge pill className="ms-1" style={{ backgroundColor: 'white', color: 'green' }}>
+                  {items.length}
+                  </Badge>
+              </div>
               {cartView ? <Modal onClose={() => setCartView(false)}><Cart></Cart></Modal> : ""}
               <div className='btn bg-danger text-white mx-1 ' onClick={handleLogout}>
                 Logout
